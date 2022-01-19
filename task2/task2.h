@@ -18,7 +18,7 @@ public:
     List() = default;
     ~List();
     void Serialize(FILE *file);  // сохранение в файл (файл открыт с помощью fopen(path, "wb"))
-    void Deserialize(FILE *file);  // загрузка из файла (файл открыт с помощью fopen(path, "rb"))
+    void Deserialize(FILE *file);// загрузка из файла (файл открыт с помощью fopen(path, "rb"))
 
     void addNode(const std::string &data, ListNode *randNode = nullptr);
     void print();

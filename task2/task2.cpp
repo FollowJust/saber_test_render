@@ -122,7 +122,7 @@ void List::Deserialize(FILE *file) {
 }
 
 void List::deserializeNode(ListNode *node, const std::map<int, ListNode*> &nodesMap, FILE *file) {
-    auto getNode = [&nodesMap, &file]() {
+    auto parseNode = [&nodesMap, &file]() {
         int index;
         fread(&index, sizeof(int), 1, file);
 
@@ -135,9 +135,9 @@ void List::deserializeNode(ListNode *node, const std::map<int, ListNode*> &nodes
         return node;
     };
 
-    node->prev = getNode();
-    node->next = getNode();
-    node->rand = getNode();
+    node->prev = parseNode();
+    node->next = parseNode();
+    node->rand = parseNode();
 
     size_t dataSize;
     fread(&dataSize, sizeof(size_t), 1, file);
@@ -172,47 +172,35 @@ int main() {
     myList.addNode("Test4");
     myList.addNode("Test5", myList[3]);
     myList.addNode("Test6");
-    std::cout << myList;
-    //
-    // FILE *file = fopen("./out", "wb");
-    //
-    // if (file) {
-    //     myList.Serialize(file);
-    //     fclose(file);
-    // }
+    std::cout << "1) Initial state:\t" << myList;
 
-    FILE *file = fopen("./out", "rb");
-
-    if (file) {
-        myList.Deserialize(file);
-        fclose(file);
-    }
-
-    std::cout << myList;
-
-    myList.addNode("Seventh", myList[0]);
-    myList.addNode("Eight", myList[6]);
-
-    std::cout << myList;
-
-    file = fopen("./out2", "wb");
+    // Saving to file
+    FILE *file = fopen("./out", "wb");
 
     if (file) {
         myList.Serialize(file);
         fclose(file);
     }
 
-    file = fopen("./out2", "rb");
-
+    // Clearing list
     myList.clear();
-    std::cout << myList;
+    std::cout << "2) List has been cleared:\t" << myList;
 
+    file = fopen("./out", "rb");
+
+    // Loading list data from file
     if (file) {
         myList.Deserialize(file);
         fclose(file);
     }
 
-    std::cout << myList;
+    std::cout << "3) Deserialized list:\t" << myList;
+
+    // Trying to add some nodes
+    myList.addNode("Seventh", myList[0]);
+    myList.addNode("Eight", myList[6]);
+
+    std::cout << "4) Added two nodes:\t"<< myList;
 
     return 0;
 }
