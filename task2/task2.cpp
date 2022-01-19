@@ -73,8 +73,6 @@ void List::Serialize(FILE *file) {
 void List::serializeNode(ListNode *node,
                          const std::unordered_map<ListNode*, int> &nodesMap,
                          FILE *file) {
-    std::string serializeNodeString;
-
     auto writeIndex = [&nodesMap, &file](ListNode* node) {
         int index = -1;
         if (node) {
