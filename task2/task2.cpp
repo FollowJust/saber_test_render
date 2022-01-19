@@ -54,7 +54,7 @@ void List::Serialize(FILE *file) {
 
     if (count != 0) {
         ListNode *tmp = head;
-        std::map<ListNode*, int> nodesMap;
+        std::unordered_map<ListNode*, int> nodesMap;
         int index = 0;
         while (tmp) {
             nodesMap[tmp] = index;
@@ -70,7 +70,9 @@ void List::Serialize(FILE *file) {
     }
 }
 
-void List::serializeNode(ListNode *node, const std::map<ListNode*, int> &nodesMap, FILE *file) {
+void List::serializeNode(ListNode *node,
+                         const std::unordered_map<ListNode*, int> &nodesMap,
+                         FILE *file) {
     std::string serializeNodeString;
 
     auto writeIndex = [&nodesMap, &file](ListNode* node) {
@@ -102,7 +104,7 @@ void List::Deserialize(FILE *file) {
     fread(&count, sizeof(int), 1, file);
 
     if (count != 0) {
-        std::map<int, ListNode*> nodesMap;
+        std::unordered_map<int, ListNode*> nodesMap;
         int index = 0;
         while (index != count) {
             nodesMap[index] = new ListNode();
@@ -121,7 +123,9 @@ void List::Deserialize(FILE *file) {
     }
 }
 
-void List::deserializeNode(ListNode *node, const std::map<int, ListNode*> &nodesMap, FILE *file) {
+void List::deserializeNode(ListNode *node,
+                           const std::unordered_map<int, ListNode*> &nodesMap,
+                           FILE *file) {
     auto parseNode = [&nodesMap, &file]() {
         int index;
         fread(&index, sizeof(int), 1, file);

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
-#include <map>
+#include <unordered_map>
 
 // структуру ListNode модифицировать нельзя
 struct ListNode {
@@ -29,8 +29,12 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const List& dt);
 
 private:
-    void serializeNode(ListNode *node, const std::map<ListNode*, int> &nodesMap, FILE *file);
-    void deserializeNode(ListNode *node, const std::map<int, ListNode*> &nodesMap, FILE *file);
+    void serializeNode(ListNode *node,
+                       const std::unordered_map<ListNode*, int> &nodesMap,
+                       FILE *file);
+    void deserializeNode(ListNode *node,
+                       const std::unordered_map<int, ListNode*> &nodesMap,
+                       FILE *file);
 
 private:
     ListNode *head = nullptr;
